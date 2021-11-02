@@ -39,7 +39,7 @@ public class gameManager : MonoBehaviour
                 if (playerCanShoot)
                 {
                     SomeoneDies(players[i]);
-                    Debug.Log("bbb");
+                    Debug.Log("player: i " + i);
                     players[i].GetComponent<Player>().gunShoot = false;
                 }
                 else
