@@ -38,15 +38,17 @@ public class gameManager : MonoBehaviour
             {
                 if (playerCanShoot)
                 {
-                    SomeoneDies(players[i]);
-                    Debug.Log("player: i " + i);
                     players[i].GetComponent<Player>().gunShoot = false;
+                    SomeoneDies(players[i]);
+                    Debug.Log("player: i " + players[i].name);
+
                 }
                 else
                 {
+                    players[i].GetComponent<Player>().gunShoot = false;
+
                     players[i].GetComponent<Player>().dead();
                     players.Remove(players[i]);
-                    players[i].GetComponent<Player>().gunShoot = false;
 
                 }
 
@@ -112,7 +114,7 @@ public class gameManager : MonoBehaviour
         int number_of_Players = players.Count;
         while (players.Count == number_of_Players)
         {
-            int randomPlayerToDie = Random.Range(0, players.Count + 1);
+            int randomPlayerToDie = Random.Range(0, players.Count+1 );
             for (int i = 0; i < players.Count; i++)
             {
                 if (i == randomPlayerToDie && players[i] != shooter)
