@@ -87,11 +87,11 @@ public class gameManager : MonoBehaviour
         float radian = angleToRespown * Mathf.Deg2Rad;
         for (int i = 0; i < playerKeys.Length; i++)
         {
-            Vector3 loc = new Vector3(Mathf.Sin(radian * (i + 1)), 1, Mathf.Cos(radian * (i + 1))) * circleRadius;
+            Vector3 loc = new Vector3(Mathf.Sin(radian * (i + 1)) * circleRadius, 1, Mathf.Cos(radian * (i + 1)) * circleRadius);
 
             GameObject player = GameObject.Instantiate<GameObject>(playerPrefab, loc, Quaternion.identity);
             player.gameObject.transform.forward = -player.transform.position.normalized;
-            player.transform.localEulerAngles -= new Vector3(135, 0, 0);
+            player.transform.localEulerAngles -= new Vector3(90, 0, 0);
             player.gameObject.name = ("player: " + (i));
             player.GetComponent<Player>().keycode = playerKeys[i];
 
