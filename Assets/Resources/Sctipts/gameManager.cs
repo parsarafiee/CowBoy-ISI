@@ -32,6 +32,26 @@ public class gameManager : MonoBehaviour
     private void Update()
     {
 
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i].GetComponent<Player>().gunShoot)
+            {
+                if (playerCanShoot)
+                {
+                    SomeoneDies(players[i]);
+                    Debug.Log("bbb");
+                    players[i].GetComponent<Player>().gunShoot = false;
+                }
+                else
+                {
+                    players[i].GetComponent<Player>().dead();
+                    players.Remove(players[i]);
+                    players[i].GetComponent<Player>().gunShoot = false;
+
+                }
+
+            }
+        }
         if (reloadTheGame)
         {
             ReloadTheGame();
@@ -63,14 +83,16 @@ public class gameManager : MonoBehaviour
         float angleToRespown = 360 / playerKeys.Length;
 
         float radian = angleToRespown * Mathf.Deg2Rad;
-        for (int i = 1; i < playerKeys.Length + 1; i++)
+        for (int i = 0; i < playerKeys.Length; i++)
         {
-            Vector3 loc = new Vector3(Mathf.Sin(radian * i), 1, Mathf.Cos(radian * i)) * circleRadius;
+            Vector3 loc = new Vector3(Mathf.Sin(radian * (i + 1)), 1, Mathf.Cos(radian * (i + 1))) * circleRadius;
 
             GameObject player = GameObject.Instantiate<GameObject>(playerPrefab, loc, Quaternion.identity);
             player.gameObject.transform.forward = -player.transform.position.normalized;
-            player.transform.localEulerAngles -= new Vector3(45, 0, 0);
-            player.gameObject.name = ( "player: "+ i);
+            player.transform.localEulerAngles -= new Vector3(135, 0, 0);
+            player.gameObject.name = ("player: " + (i));
+            player.GetComponent<Player>().keycode = playerKeys[i];
+
             players.Add(player);
 
         }
@@ -81,8 +103,30 @@ public class gameManager : MonoBehaviour
         playerCanShoot = true;
     }
 
-     void PlayerShooted()
+    void PlayerShooted()
     {
+
+    }
+    void SomeoneDies(GameObject shooter)
+    {
+        int number_of_Players = players.Count;
+        while (players.Count == number_of_Players)
+        {
+            int randomPlayerToDie = Random.Range(0, players.Count + 1);
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (i == randomPlayerToDie && players[i] != shooter)
+                {
+                    players[i].GetComponent<Player>().isAlive = false;
+                    players.Remove(players[i]);
+                    return;
+                    Debug.Log(players.Count)  ;
+                }
+
+            }
+
+        }
+
 
     }
 }

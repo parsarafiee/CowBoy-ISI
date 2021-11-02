@@ -26,11 +26,17 @@ public class Player : MonoBehaviour
             }
         }
 
+        if (!isAlive)
+        {
+            dead();
+        }
+
     }
     void PlayerContoroller()
     {
         if (Input.GetKeyDown(keycode))
         {
+            Debug.Log("name :" + name);
             gunShoot = true;
         }
     }
@@ -39,6 +45,12 @@ public class Player : MonoBehaviour
     {
         isAlive = true;
         this.transform.localEulerAngles += new Vector3(90, 0, 0);
+    }
+
+    public void dead()
+    {
+        this.gameObject.SetActive(false);
+
     }
 
 }
