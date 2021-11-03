@@ -15,9 +15,11 @@ public class gameManager : MonoBehaviour
     List<GameObject> players;
     float randomTimeforStarting;
     float timeBeforeShooting = 0;
+    float elapsed = 0;
     bool reloadTheGame = true;
 
     bool playerCanShoot = false;
+    string deadPlayer;
 
 
     private void Awake()
@@ -27,10 +29,22 @@ public class gameManager : MonoBehaviour
         RespownInCircle();
     }
 
+    GUIStyle guiStyle = new GUIStyle();
+    void OnGUI()
+    {
+        guiStyle.fontSize = 25;
+        guiStyle.normal.textColor = Color.white;
+        GUI.BeginGroup(new Rect(10, 10, 250, 150));
+        GUI.Box(new Rect(0, 0, 140, 140), "Stats", guiStyle);
+        GUI.Label(new Rect(10, 25, 200, 30), string.Format("Time: {0:0.00}", elapsed), guiStyle);
+        GUI.Label(new Rect(10, 50, 200, 30), "Dead player : " + deadPlayer);
+        GUI.EndGroup();
+    }
 
 
     private void Update()
     {
+        elapsed += Time.deltaTime;
 
         for (int i = 0; i < players.Count; i++)
         {
@@ -119,6 +133,7 @@ public class gameManager : MonoBehaviour
             {
                 if (i == randomPlayerToDie && players[i] != shooter)
                 {
+                    deadPlayer = players[i].name;
                     players[i].GetComponent<Player>().isAlive = false;
                     players.Remove(players[i]);
                     return;
